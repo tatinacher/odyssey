@@ -4,7 +4,7 @@ export const routes = [
     text: "Home",
   },
   {
-    link: "/photos",
+    link: "/gallery",
     text: "Gallery",
   },
   {

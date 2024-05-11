@@ -1,5 +1,6 @@
+import * as React from "react";
 import ReactFlow, { Controls, NodeMouseHandler } from "reactflow";
-import { useNavigate } from "react-router-dom";
+import { navigate } from "gatsby";
 import CustomNode from "./CustomNode";
 
 import "reactflow/dist/style.css";
@@ -96,8 +97,6 @@ const nodeTypes = {
 };
 
 export function Map() {
-  const navigate = useNavigate();
-
   const onNodeClick: NodeMouseHandler = (event, node) => {
     console.log(node);
     navigate("/" + node.data.path);
