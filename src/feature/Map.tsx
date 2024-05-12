@@ -1,112 +1,113 @@
 import * as React from "react";
-import ReactFlow, { Controls, NodeMouseHandler } from "reactflow";
+import ReactFlow, {
+  ConnectionLineType,
+  Controls,
+  NodeMouseHandler,
+  addEdge,
+  useEdgesState,
+  useNodesState,
+  Node,
+  Edge,
+} from "reactflow";
 import { navigate } from "gatsby";
+import dagre from "dagre";
+
 import CustomNode from "./CustomNode";
+import BaseNode from "./BaseNode";
+import LabelNode from "./LabelNode";
 
 import "reactflow/dist/style.css";
 
-const animated = true;
-const type = "step";
-const style = { border: "1px solid #777", padding: 10, width: 100 };
+type NodeType = Node<any, string | undefined>[];
+type EdgeType = Edge<any>[];
 
-const initialNodes = [
-  { id: "1", position: { x: 300, y: 0 }, data: { label: "Хаос" } },
-  { id: "2", position: { x: 0, y: 100 }, data: { label: "Эреб" } },
-  { id: "3", position: { x: 200, y: 100 }, data: { label: "Никта" } },
-  {
-    id: "4",
-    position: { x: 400, y: 100 },
-    data: { label: "Гея", path: "gaia" },
-    type: "custom",
-    style,
-  },
-  {
-    id: "5",
-    position: { x: 600, y: 100 },
-    data: { label: "Тартар" },
-  },
-  {
-    id: "6",
-    position: { x: 500, y: 200 },
-    data: { label: "Тифон" },
-  },
-  {
-    id: "7",
-    position: { x: 300, y: 200 },
-    data: { label: "Уран" },
-    type: "custom",
-    style,
-  },
-  {
-    id: "8",
-    position: { x: 350, y: 300 },
-    data: { label: "Океан" },
-  },
-];
-
-const initialEdges = [
-  { id: "e1-2", source: "1", target: "2", type, animated },
-  { id: "e1-3", source: "1", target: "3", type, animated },
-  {
-    id: "e1-4",
-    source: "1",
-    target: "4",
-    targetHandle: "a",
-    type,
-    animated,
-  },
-  { id: "e1-5", source: "1", target: "5", type, animated },
-  { id: "e5-6", source: "5", target: "6", type, animated },
-  {
-    id: "e4-7",
-    source: "4",
-    target: "7",
-    sourceHandle: "d",
-    animated,
-    type,
-  },
-  {
-    id: "e4-6",
-    source: "4",
-    target: "6",
-    type,
-    sourceHandle: "c",
-    animated,
-  },
-
-  {
-    id: "e4-8",
-    source: "4",
-    target: "8",
-    sourceHandle: "e",
-    type,
-    animated,
-  },
-  {
-    id: "e7-8",
-    source: "7",
-    target: "8",
-    sourceHandle: "b",
-    type,
-    animated,
-  },
-];
+interface MapProps {
+  nodes: NodeType;
+  edges: EdgeType;
+}
 
 const nodeTypes = {
   custom: CustomNode,
+  base: BaseNode,
+  label: LabelNode,
 };
 
-export function Map() {
+const dagreGraph = new dagre.graphlib.Graph();
+dagreGraph.setDefaultEdgeLabel(() => ({}));
+
+const nodeWidth = 72;
+const nodeHeight = 26;
+
+const getLayoutedElements = (
+  nodes: NodeType,
+  edges: EdgeType,
+  direction = "TB"
+) => {
+  const isHorizontal = direction === "LR";
+  dagreGraph.setGraph({ rankdir: direction });
+  if (!nodes || !edges) {
+    return {};
+  }
+
+  nodes.forEach((node) => {
+    dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+  });
+
+  edges.forEach((edge) => {
+    dagreGraph.setEdge(edge.source, edge.target);
+  });
+
+  dagre.layout(dagreGraph);
+
+  nodes.forEach((node) => {
+    const nodeWithPosition = dagreGraph.node(node.id);
+    node.targetPosition = isHorizontal ? "left" : "top";
+    node.sourcePosition = isHorizontal ? "right" : "bottom";
+
+    // We are shifting the dagre node position (anchor=center center) to the top left
+    // so it matches the React Flow node anchor point (top left).
+    node.position = {
+      x: nodeWithPosition.x - nodeWidth / 2,
+      y: nodeWithPosition.y - nodeHeight / 2,
+    };
+
+    return node;
+  });
+
+  return { nodes, edges };
+};
+
+export function Map({ nodes, edges }: MapProps) {
+  const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+    nodes,
+    edges
+  );
+
+  const [nodesState, setNodes, onNodesChange] = useNodesState(layoutedNodes);
+  const [edgesState, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
+
   const onNodeClick: NodeMouseHandler = (event, node) => {
     console.log(node);
-    navigate("/" + node.data.path);
+    navigate("/myth/" + node.data.path);
   };
+
+  const onConnect = React.useCallback(
+    (params) =>
+      setEdges((eds) =>
+        addEdge(
+          { ...params, type: ConnectionLineType.SmoothStep, animated: true },
+          eds
+        )
+      ),
+    []
+  );
 
   return (
     <div style={{ width: "100vw", height: "90vh" }}>
       <ReactFlow
-        nodes={initialNodes}
-        edges={initialEdges}
+        nodes={nodesState}
+        edges={edgesState}
+        onConnect={onConnect}
         onNodeClick={onNodeClick}
         nodeTypes={nodeTypes}
       >
