@@ -1,4 +1,5 @@
 import type { GatsbyConfig } from "gatsby";
+import remarkGfm from "remark-gfm";
 
 const config: GatsbyConfig = {
   siteMetadata: {
@@ -16,21 +17,34 @@ const config: GatsbyConfig = {
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     {
-      resolve: "gatsby-source-filesystem",
-      options: {
-        name: "images",
-        path: "./src/images/",
-      },
-      __key: "images",
-    },
-    {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: `content`,
-        path: `${__dirname}/src/content`,
+        name: `pages`,
+        path: `${__dirname}/src/pages`,
       },
     },
-    "gatsby-transformer-remark",
+    {
+      resolve: `gatsby-plugin-page-creator`,
+      options: {
+        path: `${__dirname}/src/pages`,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-mdx`,
+      options: {
+        // mdxOptions: {
+        //   remarkPlugins: [remarkGfm],
+        // },
+        gatsbyRemarkPlugins: [
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 690,
+            },
+          },
+        ],
+      },
+    },
   ],
 };
 

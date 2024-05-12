@@ -1,3 +1,4 @@
+import { erebNiktaEdges, erebNiktaNodes } from "./ereb-nikta";
 import { gaiaUranusEdges, gaiaUranusNodes } from "./gaia-uranus";
 
 const animated = true;
@@ -31,6 +32,7 @@ export const initialNodes = [
     type: baseNode,
   },
   ...gaiaUranusNodes,
+  ...erebNiktaNodes,
 ];
 
 export const initialEdges = [
@@ -80,5 +82,22 @@ export const initialEdges = [
     type,
     animated,
   },
+  {
+    id: "e2-23",
+    source: "2",
+    target: "2-3",
+    sourceHandle: "b",
+    type,
+    animated,
+  },
+  {
+    id: "e3-23",
+    source: "3",
+    target: "2-3",
+    sourceHandle: "b",
+    type,
+    animated,
+  },
   ...gaiaUranusEdges,
+  ...erebNiktaEdges,
 ];

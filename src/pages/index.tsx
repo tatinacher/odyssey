@@ -9,7 +9,6 @@ import { initialNodes, initialEdges } from "../content/data/map-data";
 const IndexPage: React.FC<PageProps> = () => {
   return (
     <main>
-      <Header routes={routes} />
       <Map nodes={initialNodes} edges={initialEdges} />
     </main>
   );
