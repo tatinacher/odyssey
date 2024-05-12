@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkodyssey=self.webpackChunkodyssey||[]).push([[355],{9773:function(e,s,l){l.r(s);var t=l(6540),a=l(7490),n=l(2638);s.default=()=>t.createElement("main",null,t.createElement(a.Y,{routes:n.J}),"gallery")}}]);
+//# sourceMappingURL=component---src-pages-gallery-tsx-20ebb0f38c7751833910.js.map
