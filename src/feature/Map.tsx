@@ -9,7 +9,6 @@ import ReactFlow, {
   Node,
   Edge,
 } from "reactflow";
-import { navigate } from "gatsby";
 import dagre from "dagre";
 
 import CustomNode from "./CustomNode";
@@ -87,8 +86,22 @@ export function Map({ nodes, edges }: MapProps) {
   const [edgesState, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
 
   const onNodeClick: NodeMouseHandler = (event, node) => {
-    console.log(node);
-    navigate("/myth/" + node.data.path);
+    const id = node.id.slice(0, -1);
+    let isHidden = false;
+
+    const toggledNodes = nodesState.map((node) => {
+      const currentNodeId = node.id.slice(0, -1);
+      if (node.id.startsWith(id) && currentNodeId !== id) {
+        console.log(id, currentNodeId);
+
+        if (currentNodeId.length - id.length <= 1) {
+          isHidden = !node.hidden;
+        }
+        return { ...node, hidden: isHidden };
+      }
+      return node;
+    });
+    setNodes(toggledNodes);
   };
 
   const onConnect = React.useCallback(

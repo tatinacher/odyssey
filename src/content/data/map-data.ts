@@ -1,103 +1,55 @@
 import { erebNiktaEdges, erebNiktaNodes } from "./ereb-nikta";
+import { gaiaTartarEdges, gaiaTartarNodes } from "./gaia-tartar";
 import { gaiaUranusEdges, gaiaUranusNodes } from "./gaia-uranus";
 
 const animated = true;
-const type = "bezier";
+const type = "default";
 const baseNode = "base";
 
 export const initialNodes = [
-  { id: "1", data: { label: "Хаос" }, type: baseNode },
-  { id: "2", data: { label: "Эреб" }, type: baseNode },
-  { id: "3", data: { label: "Никта" }, type: baseNode },
+  { id: "h1", data: { label: "Хаос" }, type: baseNode },
+  { id: "he1", data: { label: "Эреб" }, type: baseNode },
+  { id: "hn2", data: { label: "Никта" }, type: baseNode },
   {
-    id: "4",
+    id: "hg3",
     data: { label: "Гея", path: "gaia" },
     type: baseNode,
   },
   {
-    id: "5",
+    id: "ht4",
     data: { label: "Тартар" },
     type: baseNode,
   },
-
   {
-    id: "6",
-    data: { label: "Тифон" },
-    type: baseNode,
-  },
-
-  {
-    id: "7",
+    id: "hgu0",
     data: { label: "Уран" },
     type: baseNode,
   },
   ...gaiaUranusNodes,
   ...erebNiktaNodes,
+  ...gaiaTartarNodes,
 ];
 
 export const initialEdges = [
-  { id: "e1-2", source: "1", target: "2", type, animated },
-  { id: "e1-3", source: "1", target: "3", type, animated },
+  { id: "eh1-he1", source: "h1", target: "he1", type, animated },
+  { id: "eh1-hn2", source: "h1", target: "hn2", type, animated },
   {
-    id: "e1-4",
-    source: "1",
-    target: "4",
-    targetHandle: "a",
+    id: "eh1-hg3",
+    source: "h1",
+    target: "hg3",
     type,
     animated,
   },
-  { id: "e1-5", source: "1", target: "5", type, animated },
-  { id: "e5-6", source: "5", target: "6", type, animated },
+  { id: "eh1-ht4", source: "h1", target: "ht4", type, animated },
   {
-    id: "e4-7",
-    source: "4",
-    target: "7",
-    sourceHandle: "d",
+    id: "ehg3-hgu0",
+    source: "hg3",
+    target: "hgu0",
     animated,
     type,
     label: "Партеногенез",
   },
-  {
-    id: "e4-6",
-    source: "4",
-    target: "6",
-    type,
-    sourceHandle: "c",
-    animated,
-  },
-
-  {
-    id: "e4-8",
-    source: "4",
-    target: "4-7",
-    sourceHandle: "e",
-    type,
-    animated,
-  },
-  {
-    id: "e7-8",
-    source: "7",
-    target: "4-7",
-    sourceHandle: "b",
-    type,
-    animated,
-  },
-  {
-    id: "e2-23",
-    source: "2",
-    target: "2-3",
-    sourceHandle: "b",
-    type,
-    animated,
-  },
-  {
-    id: "e3-23",
-    source: "3",
-    target: "2-3",
-    sourceHandle: "b",
-    type,
-    animated,
-  },
   ...gaiaUranusEdges,
   ...erebNiktaEdges,
+  ...gaiaTartarEdges,
 ];
