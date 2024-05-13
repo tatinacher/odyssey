@@ -5,21 +5,6 @@ const type = "default";
 
 export const erebNiktaNodes = [
   {
-    id: "hen1",
-    data: { label: "Эреб + Никта" },
-    type: labelNode,
-  },
-  {
-    id: "heng1",
-    data: { label: "Гемера" },
-    type: baseNode,
-  },
-  {
-    id: "hene1",
-    data: { label: "Эфир" },
-    type: baseNode,
-  },
-  {
     id: "hnm1",
     data: { label: "Мор" },
     type: baseNode,
@@ -42,34 +27,6 @@ export const erebNiktaNodes = [
 ];
 
 export const erebNiktaEdges = [
-  {
-    id: "ehe1-hen1",
-    source: "he1",
-    target: "hen1",
-    type,
-    animated,
-  },
-  {
-    id: "ehn2-hen1",
-    source: "hn2",
-    target: "hen1",
-    type,
-    animated,
-  },
-  {
-    id: "ehen1-heng1",
-    source: "hen1",
-    target: "heng1",
-    type,
-    animated,
-  },
-  {
-    id: "ehen1-hene1",
-    source: "hen1",
-    target: "hene1",
-    type,
-    animated,
-  },
   //Мор
   {
     id: "ehn2-hnm1",

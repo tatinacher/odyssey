@@ -116,7 +116,7 @@ export function Map({ nodes, edges }: MapProps) {
   );
 
   return (
-    <div style={{ width: "100vw", height: "90vh" }}>
+    <div className="h-[500px] w-[700px]">
       <ReactFlow
         nodes={nodesState}
         edges={edgesState}
