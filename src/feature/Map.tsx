@@ -14,6 +14,7 @@ import dagre from "dagre";
 import CustomNode from "./CustomNode";
 import BaseNode from "./BaseNode";
 import LabelNode from "./LabelNode";
+import EmptyNode from "./EmptyNode";
 
 import "reactflow/dist/style.css";
 
@@ -23,19 +24,23 @@ type EdgeType = Edge<any>[];
 interface MapProps {
   nodes: NodeType;
   edges: EdgeType;
+  width?: string;
+  height?: string;
+  layout?: "TB" | "LR";
 }
 
 const nodeTypes = {
   custom: CustomNode,
   base: BaseNode,
   label: LabelNode,
+  empty: EmptyNode,
 };
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
 const nodeWidth = 72;
-const nodeHeight = 26;
+const nodeHeight = 56;
 
 const getLayoutedElements = (
   nodes: NodeType,
@@ -58,8 +63,10 @@ const getLayoutedElements = (
 
   dagre.layout(dagreGraph);
 
-  nodes.forEach((node) => {
+  nodes.forEach((node, id) => {
     const nodeWithPosition = dagreGraph.node(node.id);
+
+    console.log(nodeWithPosition);
     node.targetPosition = isHorizontal ? "left" : "top";
     node.sourcePosition = isHorizontal ? "right" : "bottom";
 
@@ -76,10 +83,11 @@ const getLayoutedElements = (
   return { nodes, edges };
 };
 
-export function Map({ nodes, edges }: MapProps) {
+export function Map({ nodes, edges, width, height, layout }: MapProps) {
   const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
     nodes,
-    edges
+    edges,
+    layout
   );
 
   const [nodesState, setNodes, onNodesChange] = useNodesState(layoutedNodes);
@@ -116,13 +124,14 @@ export function Map({ nodes, edges }: MapProps) {
   );
 
   return (
-    <div className="h-[500px] w-[700px]">
+    <div className={`${height || "h-[500px]"} ${width || "w-[800px]"}`}>
       <ReactFlow
         nodes={nodesState}
         edges={edgesState}
         onConnect={onConnect}
         onNodeClick={onNodeClick}
         nodeTypes={nodeTypes}
+        fitView
       >
         <Controls />
         {/* <MiniMap /> */}

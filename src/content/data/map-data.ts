@@ -1,18 +1,6 @@
-import { erebNiktaEdges, erebNiktaNodes } from "./ereb-nikta";
-import { firstGenNodes, firstGenEdge } from "./first-generation";
-import { gaiaTartarEdges, gaiaTartarNodes } from "./gaia-tartar";
-import { gaiaUranusEdges, gaiaUranusNodes } from "./gaia-uranus";
+import { firstGenNodes, firstGenEdges } from "./first-generation";
+import { secondGenNodes, secondGenEdges } from "./second-generation";
 
-export const initialNodes = [
-  ...firstGenNodes,
-  ...gaiaUranusNodes,
-  ...erebNiktaNodes,
-  ...gaiaTartarNodes,
-];
+export const initialNodes = [...firstGenNodes, ...secondGenNodes];
 
-export const initialEdges = [
-  ...firstGenEdge,
-  ...gaiaUranusEdges,
-  ...erebNiktaEdges,
-  ...gaiaTartarEdges,
-];
+export const initialEdges = [...firstGenEdges, ...secondGenEdges];

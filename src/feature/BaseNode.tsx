@@ -17,7 +17,7 @@ export default memo(({ data }: any) => {
         ) : (
           <p>{data.label}</p>
         )}
-        <div className="text-neutral-800 text-xs tracking-widest w-20">
+        <div className="text-neutral-800 text-xs tracking-widest">
           {data.description}
         </div>
       </div>

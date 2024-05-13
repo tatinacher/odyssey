@@ -4,7 +4,10 @@ import { Handle, Position } from "reactflow";
 
 export default memo(({ data }: any) => {
   return (
-    <div className="border rounded-full p-0.5 px-4 bg-gradient text-white text-xs ">
+    <div
+      className="border border-white rounded-full bg-gradient text-white text-xs 
+    "
+    >
       {data.label}
       <div className="text-white text-xs tracking-widest w-20">
         {data.description}
