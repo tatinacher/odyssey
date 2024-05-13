@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkodyssey=self.webpackChunkodyssey||[]).push([[245],{2783:function(e,t,n){n.r(t);var s=n(6540),a=n(4810);t.default=()=>s.createElement("main",null,s.createElement(a.N_,{to:"/first-generation"},"Первое поколение богов"))}}]);
+//# sourceMappingURL=component---src-pages-index-tsx-a2082c85c18eea1d5b9e.js.map
